@@ -15,6 +15,15 @@
       <h3>引入elementUi应该注意的几点</h3>
       <p><span>参照官网</span><a href="http://element.eleme.io/#/zh-CN/component/layout">链接🔗</a></p>
       <p> <el-button type="primary" :disabled=false>click</el-button> </p>
+      <h3>github的使用</h3>
+      <p>
+        1、第一步 设置用户名和邮箱 （git config --global user.name "name" / git config --global user.email "xiaobo5460@163.com"）
+        2、第二步 初始化本地git 文件 （git init）
+        3、关联远程服务器 git remote add origin https://github.com/Div-student/forward-everyday.git
+        4、日常提交三操作 git add * / git commit -m "修改***" / git push -u origin master 
+        5、最后别忘记了 在设置  git 用户名和邮箱的时候一定要进入到对应的文件目录里面哦哦
+        6、还有 git status 命令可以查看文件有哪些改动哦哦
+      </p>
   </div>
 </template>
 
