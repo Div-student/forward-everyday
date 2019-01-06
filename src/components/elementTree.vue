@@ -3,7 +3,7 @@
     <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
     <el-tree
       class="filter-tree"
-      :data="data2"
+      :data="data4"
       :props="defaultProps"
       default-expand-all
       :filter-node-method="filterNode"
@@ -17,13 +17,6 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree2.filter(val);
-    }
-  },
-
-  methods: {
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
     }
   },
   data() {
@@ -249,6 +242,7 @@ export default {
           ]
         }
       ],
+      data4: [],
       defaultProps: {
         children: "children",
         label: "label"
@@ -347,6 +341,11 @@ export default {
         }
       });
       console.log("格式化楼栋的数据", formatData);
+      this.data4 = formatData;
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
     }
   }
 };
