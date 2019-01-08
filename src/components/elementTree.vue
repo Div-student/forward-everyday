@@ -8,6 +8,7 @@
       default-expand-all
       :filter-node-method="filterNode"
       ref="tree2"
+      show-checkbox
     ></el-tree>
     <el-button @click="formatData">点击格式化</el-button>
   </div>
@@ -16,62 +17,13 @@
 export default {
   watch: {
     filterText(val) {
+      console.log("输入框的值", val);
       this.$refs.tree2.filter(val);
     }
   },
   data() {
     return {
       filterText: "",
-      data2: [
-        {
-          id: 1,
-          label: "一级 1",
-          children: [
-            {
-              id: 4,
-              label: "二级 1-1",
-              children: [
-                {
-                  id: 9,
-                  label: "三级 1-1-1"
-                },
-                {
-                  id: 10,
-                  label: "三级 1-1-2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          label: "一级 2",
-          children: [
-            {
-              id: 5,
-              label: "二级 2-1"
-            },
-            {
-              id: 6,
-              label: "二级 2-2"
-            }
-          ]
-        },
-        {
-          id: 3,
-          label: "一级 3",
-          children: [
-            {
-              id: 7,
-              label: "二级 3-1"
-            },
-            {
-              id: 8,
-              label: "二级 3-2"
-            }
-          ]
-        }
-      ],
       data3: [
         {
           parkId: "7",
@@ -343,9 +295,45 @@ export default {
       console.log("格式化楼栋的数据", formatData);
       this.data4 = formatData;
     },
-    filterNode(value, data) {
+    filterNode(value, data, node) {
+      // debugger;
+      // if (!value) return true;
+      // return data.label.indexOf(value) !== -1;
+      //如果共有三级菜单
       if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      let if_one = data.label.indexOf(value) !== -1;
+      let if_two =
+        node.parent &&
+        node.parent.data &&
+        node.parent.data.label &&
+        node.parent.data.label.indexOf(value) !== -1;
+      let if_three =
+        node.parent &&
+        node.parent.parent &&
+        node.parent.parent.data &&
+        node.parent.parent.data.label &&
+        node.parent.parent.data.label.indexOf(value) !== -1;
+        let if_four =
+        node.parent &&
+        node.parent.parent &&
+        node.parent.parent.data &&
+        node.parent.parent.data.label &&
+        node.parent.parent.parent.data.label &&
+        node.parent.parent.parent.data.label.indexOf(value) !== -1;
+      let result_one = false;
+      let result_two = false;
+      let result_three = false;
+      let result_four = false;
+      if (node.level === 1) {
+        result_one = if_one;
+      } else if (node.level === 2) {
+        result_two = if_one || if_two;
+      } else if (node.level === 3) {
+        result_three = if_one || if_two || if_three;
+      }else if (node.level === 4) {
+        result_three = if_one || if_two || if_three || if_four;
+      }
+      return result_one || result_two || result_three || result_four;
     }
   }
 };
