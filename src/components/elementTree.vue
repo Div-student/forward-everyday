@@ -11,9 +11,19 @@
       show-checkbox
     ></el-tree>
     <el-button @click="formatData">点击格式化</el-button>
+    <MessageBox
+      :dialogVisible="dialogVisible"
+      :title="title1"
+      :textMessage="textMessage"
+      @ensure="ensure"
+      @unsure="unsure"
+      :dailType="dailType"
+      :tableData="tableData"
+    ></MessageBox>
   </div>
 </template>
 <script>
+import MessageBox from "@/components/common/messageBox";
 export default {
   watch: {
     filterText(val) {
@@ -198,11 +208,78 @@ export default {
       defaultProps: {
         children: "children",
         label: "label"
-      }
+      },
+      dialogVisible: false,
+      title1: "提示",
+      textMessage: "11243432424234",
+      dailType: "",
+      tableData: [],
     };
   },
   methods: {
     formatData() {
+      this.dialogVisible = true;
+      this.dailType = '30'
+      this.tableData = [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }]
+    },
+    filterNode(value, data, node) {
+      // debugger;
+      // if (!value) return true;
+      // return data.label.indexOf(value) !== -1;
+      //如果共有三级菜单
+      if (!value) return true;
+      let if_one = data.label.indexOf(value) !== -1;
+      let if_two =
+        node.parent &&
+        node.parent.data &&
+        node.parent.data.label &&
+        node.parent.data.label.indexOf(value) !== -1;
+      let if_three =
+        node.parent &&
+        node.parent.parent &&
+        node.parent.parent.data &&
+        node.parent.parent.data.label &&
+        node.parent.parent.data.label.indexOf(value) !== -1;
+      let if_four =
+        node.parent &&
+        node.parent.parent &&
+        node.parent.parent.data &&
+        node.parent.parent.data.label &&
+        node.parent.parent.parent.data.label &&
+        node.parent.parent.parent.data.label.indexOf(value) !== -1;
+      let result_one = false;
+      let result_two = false;
+      let result_three = false;
+      let result_four = false;
+      if (node.level === 1) {
+        result_one = if_one;
+      } else if (node.level === 2) {
+        result_two = if_one || if_two;
+      } else if (node.level === 3) {
+        result_three = if_one || if_two || if_three;
+      } else if (node.level === 4) {
+        result_three = if_one || if_two || if_three || if_four;
+      }
+      return result_one || result_two || result_three || result_four;
+    },
+    ensure() {
+      this.dialogVisible = false
       let formatData = this.data3[0].buildings.map(item => {
         if (item.type === "building") {
           if (item.floors.length > 0) {
@@ -292,49 +369,14 @@ export default {
           };
         }
       });
-      console.log("格式化楼栋的数据", formatData);
       this.data4 = formatData;
     },
-    filterNode(value, data, node) {
-      // debugger;
-      // if (!value) return true;
-      // return data.label.indexOf(value) !== -1;
-      //如果共有三级菜单
-      if (!value) return true;
-      let if_one = data.label.indexOf(value) !== -1;
-      let if_two =
-        node.parent &&
-        node.parent.data &&
-        node.parent.data.label &&
-        node.parent.data.label.indexOf(value) !== -1;
-      let if_three =
-        node.parent &&
-        node.parent.parent &&
-        node.parent.parent.data &&
-        node.parent.parent.data.label &&
-        node.parent.parent.data.label.indexOf(value) !== -1;
-        let if_four =
-        node.parent &&
-        node.parent.parent &&
-        node.parent.parent.data &&
-        node.parent.parent.data.label &&
-        node.parent.parent.parent.data.label &&
-        node.parent.parent.parent.data.label.indexOf(value) !== -1;
-      let result_one = false;
-      let result_two = false;
-      let result_three = false;
-      let result_four = false;
-      if (node.level === 1) {
-        result_one = if_one;
-      } else if (node.level === 2) {
-        result_two = if_one || if_two;
-      } else if (node.level === 3) {
-        result_three = if_one || if_two || if_three;
-      }else if (node.level === 4) {
-        result_three = if_one || if_two || if_three || if_four;
-      }
-      return result_one || result_two || result_three || result_four;
+    unsure(){
+      this.dialogVisible = false;
     }
+  },
+  components: {
+    MessageBox
   }
 };
 </script>

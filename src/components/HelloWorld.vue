@@ -16,6 +16,7 @@
       <p><span>参照官网</span><a href="http://element.eleme.io/#/zh-CN/component/layout">链接🔗</a></p>
       <p> <el-button type="primary" :disabled=false>click</el-button> </p>
       <h3>github的使用</h3>
+      <input type="text">
       <p>
         1、第一步 设置用户名和邮箱 （git config --global user.name "name" / git config --global user.email "xiaobo5460@163.com"）
         2、第二步 初始化本地git 文件 （git init）
