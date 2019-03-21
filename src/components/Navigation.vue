@@ -5,6 +5,7 @@
       <el-aside width="10rem">
           <div><router-link to="/">第一次学习</router-link></div>
           <div><router-link to="/elementuitree">element-ui tree学习</router-link></div>
+          <div><router-link to="/displayFlex">弹性布局display</router-link></div>
       </el-aside>
       <el-container>
         <el-main>
